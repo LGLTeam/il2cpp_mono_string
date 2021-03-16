@@ -29,6 +29,9 @@ typedef struct _monoString {
         const char16_t *cStr = basicString.c_str();
         memcpy(getChars(), cStr, getLength() * 2);
     }
+    void create(std::string str) {
+    	create(str.c_str());
+    }
 
     static _monoString *New(const char *str) {
         _monoString *s = new _monoString();
