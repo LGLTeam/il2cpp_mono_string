@@ -18,7 +18,7 @@ LOGI("const char*: %s", from_const_char->get_const_char());
 LOGI("std::string: %s", from_string->get_string().c_str());
 LOGI("just_create: %s", just_create->get_const_char());
 LOGI("il2cpp_method: %s", il2cpp_method->get_string().c_str());
-LOGI("mono_method: %s", il2cpp_method->get_const_char());
+LOGI("mono_method: %s", mono_method->get_const_char());
 ```
 
 # Что использовалось для создания этого monoString:
