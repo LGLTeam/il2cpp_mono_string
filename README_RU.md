@@ -24,3 +24,5 @@ LOGI("mono_method: %s", mono_method->get_const_char());
 # Что использовалось для создания этого monoString:
 
 Конвертация Il2cppString в std::string с поддержкой utf8 - https://github.com/Octowolve/aucl
+
+CreateMonoString - https://platinmods.com/threads/how-to-modify-unitys-il2cpp-string-methods.123414/
