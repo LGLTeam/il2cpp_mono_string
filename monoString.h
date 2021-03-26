@@ -7,6 +7,13 @@
 #include <sstream>
 #include <dlfcn.h>
 
+#define ALLOC_PTRFREE(obj, vt, size) do { (obj) = (_monoString*)malloc ((size)); (obj)->klass = (vt); (obj)->monitor = NULL;} while (0)
+
+struct _monoString;
+typedef struct {
+    _monoString *string_class;
+} Il2CppDefaults_string;
+Il2CppDefaults_string il2cpp_defaults;
 typedef struct _monoString {
     void *klass;
     void *monitor;
@@ -29,12 +36,15 @@ typedef struct _monoString {
         const char16_t *cStr = basicString.c_str();
         memcpy(getChars(), cStr, getLength() * 2);
     }
+
     void create(std::string str) {
-    	create(str.c_str());
+        create(str.c_str());
     }
 
     static _monoString *New(const char *str) {
-        _monoString *s = new _monoString();
+        _monoString *s;
+        size_t size = (sizeof(_monoString) + ((strlen(str) + 1) * 2));
+        ALLOC_PTRFREE(s, il2cpp_defaults.string_class, size);
         s->create(str);
         return s;
     }
@@ -81,7 +91,9 @@ monoString *CreateIl2CppString(std::string str) {
 
 monoString *CreateMonoString(const char *str) { //private unsafe string CreateString(sbyte* value)
 #ifdef __arm__ //armeabi-v7a
-    monoString *(*String_CreateString)(void *instance, const char *str) = (monoString *(*)(void *, const char *)) getAbsoluteAddress(libName, 0x0);
+    monoString *(*String_CreateString)(void *instance, const char *str) = (monoString *(*)(void *,
+                                                                                           const char *)) getAbsoluteAddress(
+            libName, 0x0);
 #elif defined(__i386__) //x86
     monoString *(*String_CreateString)(void *instance, const char *str) = (monoString *(*)(void *,
                                                                                            const char *)) getAbsoluteAddress(
